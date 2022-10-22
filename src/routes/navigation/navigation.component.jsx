@@ -16,7 +16,7 @@ const Navigation=()=>{
               SHOP
             </Link>
             <Link className="nav-link" to="/sign-in"> {/*This Link tag use can use in browser router (see index.js) */}
-              SIGN In
+              SIGN IN
             </Link>
           </div>
         </div>
