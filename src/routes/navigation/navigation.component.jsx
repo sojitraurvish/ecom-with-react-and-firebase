@@ -15,7 +15,7 @@ const Navigation=()=>{
             <Link className="nav-link" to="/shop"> {/*This Link tag use can use in browser router (see index.js) */}
               SHOP
             </Link>
-            <Link className="nav-link" to="/sign-in"> {/*This Link tag use can use in browser router (see index.js) */}
+            <Link className="nav-link" to="/auth"> {/*This Link tag use can use in browser router (see index.js) */}
               SIGN IN
             </Link>
           </div>

@@ -1,16 +1,19 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
+import { initializeApp } from "firebase/app"; //this initializeApp initialize app and help to connect this instance with server instance that we have cerated at google firebase
 import {
-    getAuth,
+    getAuth,//HERE we also have to create auth instance
     signInWithRedirect,
     signInWithPopup,
     GoogleAuthProvider,
     // FacebookAuthProvider
-    createUserWithEmailAndPassword
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword
 } from "firebase/auth"; 
+
+//------------------ as like firebase , firestore is difference storage
 import {
-    getFirestore,
-    doc,//retrieve document inside our fire store database but how do you get or set that data on this documents / here it gives document instance but in order to get and set data you have to use getDoc and setDoc 
+    getFirestore,//here also we have to initialize firestore instance in order to communicate with it
+    doc,//retrieve document instance inside our fire store database but how do you get or set that data on this documents / here it gives document instance but in order to get and set data you have to use getDoc and setDoc 
     getDoc,
     setDoc
 } from "firebase/firestore";
@@ -28,20 +31,21 @@ const firebaseConfig = {
   appId: "1:290239551911:web:d2cec040e9b8045ec5fe82"
 };
 // Initialize Firebase
-const firebaseApp = initializeApp(firebaseConfig);
+const firebaseApp = initializeApp(firebaseConfig); //this initializeApp initialize app and help to connect this instance with server instance that we have cerated at google firebase
 
 const googleProvider=new GoogleAuthProvider();
 googleProvider.setCustomParameters({
     prompt:"select_account"
 });
 
-export const auth=getAuth();
+export const auth=getAuth();//here we create auth instance
 
 export const signInWithGooglePopup=()=>signInWithPopup(auth,googleProvider);
 export const signInWithGoogleRedirect=()=>signInWithRedirect(auth,googleProvider);
 
 //------------------------------------------
 
+// initialize fire store instance in order to communicate
 export const db=getFirestore();
 
 export const createUserDocumentFromAuth=async (userAuth,additionalInformation={})=>{
@@ -81,4 +85,10 @@ export const createAuthUserWithEmailAndPassword=async (email,password)=>{
     if(!email || !password) return;
 
     return await createUserWithEmailAndPassword(auth,email,password);
+}
+
+export const signInAuthUserWithEmailAndPassword=async(email,password)=>{
+    if(!email || !password)return;
+
+    return await signInWithEmailAndPassword(auth,email,password);
 }
