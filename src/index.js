@@ -2,15 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {BrowserRouter} from "react-router-dom";//generic router it leverages url in order to track of the history of where the user is navigating through and there are other methods too
 
-import './index.scss';
 import App from './App';
+import { UserProvider } from './contexts/user.context';
 import reportWebVitals from './reportWebVitals';
+
+import './index.scss';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
+      <UserProvider>
        <App /> 
+
+      </UserProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

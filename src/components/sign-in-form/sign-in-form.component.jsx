@@ -1,5 +1,7 @@
 import { async } from "@firebase/util";
-import { useState } from "react";
+import { useState,useContext } from "react";//----------User context
+
+import { UserContext } from "../../contexts/user.context";//----------User context
 
 import { createAuthUserWithEmailAndPassword,createUserDocumentFromAuth,signInWithGooglePopup,signInAuthUserWithEmailAndPassword } from "../../utils/firebase/firebase.utils";
 
@@ -15,6 +17,8 @@ const SignInForm=()=>{
     const [formFields,setFormFields]=useState(defaultFormFields);
     const {email,password}=formFields;
 
+    const {setCurrentUser}=useContext(UserContext);//----------User context
+
     const handleChange=(event)=>{
         const {name,value}=event.target;
         // console.log(event);
@@ -26,10 +30,10 @@ const SignInForm=()=>{
         setFormFields(defaultFormFields);
     }
 
-    const logGoogleUser=async()=>{
+    const signInWithGoogle=async()=>{
         const {user}=await signInWithGooglePopup();
         // console.log(user);
-        
+        setCurrentUser(user);
         await createUserDocumentFromAuth(user);
         // console.log(userDocRef);
     }
@@ -39,8 +43,10 @@ const SignInForm=()=>{
 
 
         try{
-            const res=await signInAuthUserWithEmailAndPassword(email,password);
+            const user=await signInAuthUserWithEmailAndPassword(email,password);
             // console.log(res);
+
+            setCurrentUser(user);//----------User context
             resetFormFields();
         }catch(err){
             switch(err.code){
@@ -73,7 +79,7 @@ const SignInForm=()=>{
                 <div className="buttons-container">
 
                     <Button type="submit">Sign In</Button>
-                    <Button type="button" buttonType="google" onClick={signInWithGooglePopup}>Google Sign In</Button>
+                    <Button type="button" buttonType="google" onClick={signInWithGoogle}>Google Sign In</Button>
                 </div>
             </form>
         </div>

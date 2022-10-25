@@ -7,7 +7,9 @@ import {
     GoogleAuthProvider,
     // FacebookAuthProvider
     createUserWithEmailAndPassword,
-    signInWithEmailAndPassword
+    signInWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged
 } from "firebase/auth"; 
 
 //------------------ as like firebase , firestore is difference storage
@@ -92,3 +94,8 @@ export const signInAuthUserWithEmailAndPassword=async(email,password)=>{
 
     return await signInWithEmailAndPassword(auth,email,password);
 }
+
+export const signOutUser=async()=>await signOut(auth);
+
+export const onAuthStateChangedListener=(callback)=>
+onAuthStateChanged(auth,callback); // Whenever auth's state changes this function call callback function
