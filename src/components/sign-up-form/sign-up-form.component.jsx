@@ -43,9 +43,9 @@ const SignUpForm=()=>{
         try{
             const {user}=await createAuthUserWithEmailAndPassword(email,password);
             
-            setCurrentUser(user);
+            // setCurrentUser(user); // this thing we have made automated in user.context.jsx file
 
-            await createUserDocumentFromAuth(user,{displayName}); 
+            // await createUserDocumentFromAuth(user,{displayName}); // this thing we have made automated in user.context.jsx file
             resetFormFields();
         }catch(err){
             if(err.code==="auth/email-already-in-use"){

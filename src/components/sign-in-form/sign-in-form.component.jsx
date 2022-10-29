@@ -33,8 +33,8 @@ const SignInForm=()=>{
     const signInWithGoogle=async()=>{
         const {user}=await signInWithGooglePopup();
         // console.log(user);
-        setCurrentUser(user);
-        await createUserDocumentFromAuth(user);
+        // setCurrentUser(user);// this thing we have made automated in user.context.jsx file
+        await createUserDocumentFromAuth(user); // this thing we have made automated in user.context.jsx file
         // console.log(userDocRef);
     }
 
@@ -46,7 +46,7 @@ const SignInForm=()=>{
             const user=await signInAuthUserWithEmailAndPassword(email,password);
             // console.log(res);
 
-            setCurrentUser(user);//----------User context
+            // setCurrentUser(user);//----------User context // this thing we have made automated in user.context.jsx file
             resetFormFields();
         }catch(err){
             switch(err.code){

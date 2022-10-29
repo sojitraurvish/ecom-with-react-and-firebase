@@ -98,4 +98,4 @@ export const signInAuthUserWithEmailAndPassword=async(email,password)=>{
 export const signOutUser=async()=>await signOut(auth);
 
 export const onAuthStateChangedListener=(callback)=>
-onAuthStateChanged(auth,callback); // Whenever auth's state changes this function call callback function
+onAuthStateChanged(auth,callback); // Whenever auth's state changes this callback function get run and it kind of open listener but here one problem that when user sing out and this listener still listening it so, it consider as memory lick and that why this function return as unsubscribe function that will unmount this listener form memory 
