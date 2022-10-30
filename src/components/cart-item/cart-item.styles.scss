@@ -20,5 +20,17 @@
         font-size: 16px;
       }
     }
+
+    .trash-div{
+      position:relative;
+      right: 0px;
+      .trash{
+        height: 25px;
+        width: 25px;
+        position: relative;
+        top:25px;
+        
+      }
+    }
   }
   
