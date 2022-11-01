@@ -9,7 +9,8 @@ import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     signOut,
-    onAuthStateChanged
+    onAuthStateChanged,
+    
 } from "firebase/auth"; 
 
 //------------------ as like firebase , firestore is difference storage
@@ -17,7 +18,11 @@ import {
     getFirestore,//here also we have to initialize firestore instance in order to communicate with it
     doc,//retrieve document instance inside our fire store database but how do you get or set that data on this documents / here it gives document instance but in order to get and set data you have to use getDoc and setDoc 
     getDoc,
-    setDoc
+    setDoc,
+    collection,
+    writeBatch,//for transactions,
+    query,
+    getDocs
 } from "firebase/firestore";
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -99,3 +104,33 @@ export const signOutUser=async()=>await signOut(auth);
 
 export const onAuthStateChangedListener=(callback)=>
 onAuthStateChanged(auth,callback); // Whenever auth's state changes this callback function get run and it kind of open listener but here one problem that when user sing out and this listener still listening it so, it consider as memory lick and that why this function return as unsubscribe function that will unmount this listener form memory 
+
+
+export const addCollectionAndDocuments=async(collectionKey,objectsToAdd)=>{
+    const collectionRef=collection(db,collectionKey);
+     
+    const batch=writeBatch(db);
+
+   objectsToAdd.forEach((object)=>{
+    const docRef=doc(collectionRef,object.title.toLowerCase());
+    batch.set(docRef,object);
+   });
+
+   await batch.commit();
+   console.log("done");
+}
+
+export const getCategoriesAndDocuments=async()=>{
+    const collectionRef=collection(db,"categories");
+    const q=query(collectionRef);
+
+    const querySnapshot=await getDocs(q);
+
+    const categoryMap=querySnapshot.docs.reduce((acc,docShapshot)=>{
+        const {title,items}=docShapshot.data();
+        acc[title.toLowerCase()]=items;
+        return acc;
+    },{});
+
+    return categoryMap;
+}
