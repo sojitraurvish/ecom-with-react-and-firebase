@@ -11,9 +11,8 @@ const CategoryPreview=(props)=>{
                 <Link className="title" to={title}>{title.toUpperCase()}</Link>
             </h2>
             <div className="preview">
-                {
-                    products
-                    .filter((_,index)=>{
+                {products &&
+                    products.filter((_,index)=>{
                         return index < 4;
                     })
                     .map((product)=>{

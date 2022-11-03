@@ -7,6 +7,8 @@ import "./categories-preview.styles.scss";
 
 const CategoriesPreview=()=>{
     const {categoriesMap}= useContext(CategoriesContext);
+
+    console.log(categoriesMap);
                 
     return (
         <div className="shop-container">
