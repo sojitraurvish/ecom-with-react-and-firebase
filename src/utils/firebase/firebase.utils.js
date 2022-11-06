@@ -126,11 +126,13 @@ export const getCategoriesAndDocuments=async()=>{
 
     const querySnapshot=await getDocs(q);
 
-    const categoryMap=querySnapshot.docs.reduce((acc,docShapshot)=>{
-        const {title,items}=docShapshot.data();
-        acc[title.toLowerCase()]=items;
-        return acc;
-    },{});
+    // const categoryMap=querySnapshot.docs.reduce((acc,docShapshot)=>{
+    //     const {title,items}=docShapshot.data();
+    //     acc[title.toLowerCase()]=items;
+    //     return acc;
+    // },{});
+
+    const categoryMap=querySnapshot.docs.map(docSnapshot=>docSnapshot.data());
 
     return categoryMap;
 }
