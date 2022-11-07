@@ -6,13 +6,19 @@ import { CartContext } from "../../contexts/cart.context";
 
 import { ReactComponent as Trash} from "../../assets/trash-can.svg";
 
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import {clearItemToCart} from "../../store/cart/cart.action"
+import {selectCartItems} from "../../store/cart/cart.selector"
+
 const CartItem=(props)=>{
 
     const {name,price,quantity,imageUrl}=props.cartItem;
 
-    const {clearItemToCart}=useContext(CartContext);
+    const cartItems=useSelector(selectCartItems);
 
-    const clearItemHandler=()=>clearItemToCart(props.cartItem);
+    const dispatch=useDispatch();
+    const clearItemHandler=()=>dispatch(clearItemToCart(cartItems,props.cartItem));
 
     return (
         <div className="cart-item-container">

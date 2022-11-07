@@ -6,9 +6,16 @@ import CheckoutItem from "../../components/checkout-item/checkout-item.component
 
 import "./checkout.styles.scss";
 
+import { useDispatch,useSelector } from "react-redux";
+
+import {selectCartItems,selectCartTotal} from "../../store/cart/cart.selector";
+import {setIsCartOpen} from "../../store/cart/cart.action";
+
 const Checkout=()=>{
-    const {cartItems,cartTotal,addItemToCart,removeItemToCart}=useContext(CartContext);
+    // const {cartItems,cartTotal,addItemToCart,removeItemToCart}=useContext(CartContext);
      
+    const cartItems=useSelector(selectCartItems);
+    const cartTotal=useSelector(selectCartTotal);
     
     return (
         <div className="checkout-container">

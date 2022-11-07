@@ -37,6 +37,8 @@ export const selectCategoriesMap=createSelector(
     }
 );
 
+//Note - here in selectCartTotal is memorize selector and in it createSelector has two argument and when you call this function first it will call [selectCartItems] this method inside array and if it found any change with previous state than only it will run second argument function   
+
 // export const selectCategoriesMap=(state)=>{
 //     console.log("selector fired");
 //     return state.categories.categories

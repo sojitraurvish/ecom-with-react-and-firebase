@@ -9,12 +9,16 @@ import { CategoriesContext } from "../../contexts/categories.context";
 
 import Button from "../button/button.component";
 import CartItem from "../cart-item/cart-item.component";
+import { useSelector } from "react-redux";
+import {selectCartItems} from "../../store/cart/cart.selector"
 
 const CartDropdown=()=>{
 
-    const {cartItems}=useContext(CartContext);
-    const {categoriesMap}=useContext(CategoriesContext);
-    console.log(categoriesMap);
+    // const {cartItems}=useContext(CartContext);
+    const cartItems=useSelector(selectCartItems);
+
+    // const {categoriesMap}=useContext(CategoriesContext);
+    // console.log(categoriesMap);
     const navigate=useNavigate();
 
     const goToCheckoutHandler=()=>{
