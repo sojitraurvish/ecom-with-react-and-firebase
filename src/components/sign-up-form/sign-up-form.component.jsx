@@ -1,13 +1,16 @@
 import { async } from "@firebase/util";
 import { useState,useContext } from "react";
+import { useDispatch } from "react-redux";
 
 import { createAuthUserWithEmailAndPassword,createUserDocumentFromAuth } from "../../utils/firebase/firebase.utils";
 
 import { UserContext } from "../../contexts/user.context";
+import { signUpStart } from "../../store/user/user.action";
 
 import "./sign-up-form.styles.scss";
 import FormInput from "../form-input/from-input.component";
 import Button from "../button/button.component";
+
 
 const defaultFormFields={
     displayName:"",
@@ -18,6 +21,7 @@ const defaultFormFields={
 const SignUpForm=()=>{
     const [formFields,setFormFields]=useState(defaultFormFields);
     const {displayName,email,password,conformPassword}=formFields;
+    const dispatch=useDispatch();
 
     const {setCurrentUser}=useContext(UserContext);
 
@@ -41,7 +45,8 @@ const SignUpForm=()=>{
         }
 
         try{
-            const {user}=await createAuthUserWithEmailAndPassword(email,password);
+            // const {user}=await createAuthUserWithEmailAndPassword(email,password);
+            dispatch(signUpStart(email,password,displayName));
             
             // setCurrentUser(user); // this thing we have made automated in user.context.jsx file
 

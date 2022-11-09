@@ -9,11 +9,15 @@ import "./sign-in-form.styles.scss";
 import FormInput from "../form-input/from-input.component";
 import Button,{BUTTON_TYPE_CLASSES} from "../button/button.component";
 
+import { useDispatch } from "react-redux";
+import { googleSignInStart,emailSignInStart } from "../../store/user/user.action";
+
 const defaultFormFields={
     email:"",
     password:"",
 }
 const SignInForm=()=>{
+    const dispatch=useDispatch();
     const [formFields,setFormFields]=useState(defaultFormFields);
     const {email,password}=formFields;
 
@@ -31,10 +35,13 @@ const SignInForm=()=>{
     }
 
     const signInWithGoogle=async()=>{
-        const {user}=await signInWithGooglePopup();
+        // const {user}=await signInWithGooglePopup();
+        
+        dispatch(googleSignInStart());
+
         // console.log(user);
         // setCurrentUser(user);// this thing we have made automated in user.context.jsx file
-        await createUserDocumentFromAuth(user); // this thing we have made automated in user.context.jsx file
+        // await createUserDocumentFromAuth(user); // this thing we have made automated in user.context.jsx file
         // console.log(userDocRef);
     }
 
@@ -43,7 +50,7 @@ const SignInForm=()=>{
 
 
         try{
-            const user=await signInAuthUserWithEmailAndPassword(email,password);
+            dispatch(emailSignInStart(email,password));
             // console.log(res);
 
             // setCurrentUser(user);//----------User context // this thing we have made automated in user.context.jsx file

@@ -12,23 +12,26 @@ import Checkout from './routes/checkout/checkout.component';
 
 import {useEffect} from "react";
 import { setCurrentUser } from './store/user/user.action';
-import { createUserDocumentFromAuth, onAuthStateChangedListener, signOutUser } from "./utils/firebase/firebase.utils";
+import { createUserDocumentFromAuth,getCurrentUser, onAuthStateChangedListener, signOutUser } from "./utils/firebase/firebase.utils";
 import { useDispatch } from 'react-redux';
+import { checkUserSession } from './store/user/user.action';
 
 const App=()=> {
 
   const dispatch=useDispatch();
   useEffect(()=>{
-    const unsubscribe=onAuthStateChangedListener((user)=>{
-      console.log("useEffect App");  
+    // const unsubscribe=onAuthStateChangedListener((user)=>{
+    //   console.log("useEffect App");  
 
-    if(user){
-        createUserDocumentFromAuth(user);
-    }
-      dispatch(setCurrentUser(user));
-    }) 
+    // if(user){
+    //     createUserDocumentFromAuth(user);
+    // }
+    //   dispatch(setCurrentUser(user));
+    // }) 
 
-    return unsubscribe
+    // return unsubscribe
+    // getCurrentUser().then((user)=>console.log(user));
+    dispatch(checkUserSession());
   },[]);
 
   return (

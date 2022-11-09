@@ -13,16 +13,6 @@ export const fetchCategoriesSuccess=(categoriesArray)=>createAction(CATEGORIES_A
 
 export const fetchCategoriesFailed=(error)=>createAction(CATEGORIES_ACTION_TYPES.FETCH_CATEGORIES_FAILED,error);
 
-export const fetchCategoriesAsync=()=>async(dispatch)=>{
-    dispatch(fetchCategoriesStart());
-    try{
-        const categoriesArray=await getCategoriesAndDocuments("categories");
-        dispatch(fetchCategoriesSuccess(categoriesArray));
-    }catch(error){
-        dispatch(fetchCategoriesFailed(error));
-    }
-    
-}
 
 //to understand this function goto file logger.js
 // const thunkMiddleware=(store)=>(next)=>(action)=>{
