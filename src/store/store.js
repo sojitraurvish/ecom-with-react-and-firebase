@@ -3,21 +3,27 @@ import logger from 'redux-logger'
 import {persistStore,persistReducer} from "redux-persist";
 import storage from "redux-persist/lib/storage";// this use localstorage
 
+
 import {loggerMiddleware} from "./middleware/logger";
 
 import { rootReducer } from "./root-reducer";
+
+import thunk from "redux-thunk";
 
 
 const persistConfig={
     key:"root",//root meant i want to persist hole thing 
     storage,// this is local storage
-    blacklist:["user"]// name of reducer which we don't want to store  
+    // blacklist:["user"]// name of reducer which we don't want to store  
+    whitelist:["cart"]// name of reducer which we don't want to store  
 }
 
 const persistedReducer=persistReducer(persistConfig,rootReducer);//here we have created persistedReducer which we want to use for our store
 
-const middleWares=[/*logger,*/process.env.NODE_ENV!=="production" && loggerMiddleware].filter(Boolean);//for this see pic 210 inside middleware
-
+const middleWares=[
+    /*logger,*/process.env.NODE_ENV!=="production" && loggerMiddleware,
+    thunk
+].filter(Boolean);//for this see pic 210 inside middleware
 
 
 const composedEnhancer=(process.env.NODE_ENV!=="production" && window && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__)||compose

@@ -1,7 +1,8 @@
 import {  useContext } from "react";
 import { useSelector } from "react-redux";
 
-import {selectCategoriesMap} from "../../store/categories/category.selector"
+import {selectCategoriesMap,selectCategoriesIsLoading} from "../../store/categories/category.selector"
+import Spinner from "../../components/spinner/spinner.component";
 
 import { CategoriesContext } from "../../contexts/categories.context";
 
@@ -11,13 +12,16 @@ import "./categories-preview.styles.scss";
 const CategoriesPreview=()=>{
     // const {categoriesMap}= useContext(CategoriesContext);
     const categoriesMap=useSelector(selectCategoriesMap);
+    const isLoading=useSelector(selectCategoriesIsLoading);
 
     console.log(categoriesMap);
                 
     return (
         <div className="shop-container">
             {
-                Object.keys(categoriesMap).map((title)=>{
+                isLoading
+                ?(<Spinner/>)
+                :(Object.keys(categoriesMap).map((title)=>{
                     const products=categoriesMap[title];
                     return (
 
@@ -41,7 +45,7 @@ const CategoriesPreview=()=>{
                         // </Fragment>
                     );
                     
-                })
+                }))
             }
         </div>
     );

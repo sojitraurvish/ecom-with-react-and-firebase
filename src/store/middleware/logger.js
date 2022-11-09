@@ -1,6 +1,6 @@
 export const loggerMiddleware=(store)=>(next)=>(action)=>{
     if(!action.type){
-        return next(action);
+        return next(action); // -> this action passes to the thunkMiddleware And if action do'nt have type that mean it is function
     }
     console.log("type: ",action.type);
     console.log("action:",action.payload);
@@ -11,3 +11,10 @@ export const loggerMiddleware=(store)=>(next)=>(action)=>{
 
     console.log("next state: ",store.getState());
 }
+
+
+// const thunkMiddleware=(store)=>(next)=>(action)=>{
+//     if(typeof(action)==='function'){
+//         action(dispatch);
+//     }
+// }
