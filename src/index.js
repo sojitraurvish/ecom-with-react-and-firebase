@@ -9,6 +9,8 @@ import { CategoriesProvider } from './contexts/categories.context';
 import { CartProvider } from './contexts/cart.context';
 import reportWebVitals from './reportWebVitals';
 import { store,persistor } from './store/store';
+import {Elements} from "@stripe/react-stripe-js"
+import { stripePromise } from './utils/stripe/stripe.utils';
 
 import {PersistGate} from "redux-persist/integration/react";
 
@@ -23,7 +25,11 @@ root.render(
           {/* <UserProvider>
             <CategoriesProvider>
               <CartProvider> */}
+                <Elements stripe={stripePromise}>
+
                   <App /> 
+                </Elements>
+              
               {/* </CartProvider>
             </CategoriesProvider>
           </UserProvider> */}
