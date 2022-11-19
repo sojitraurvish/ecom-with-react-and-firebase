@@ -27,10 +27,11 @@ export const selectCategories=createSelector(//this memorize selector will only 
 export const selectCategoriesMap=createSelector(
     [selectCategories],
     (categories)=>{
-        console.log("selector 3 fired");
+        console.log("selector 3 fired",categories);
         return categories
         .reduce((acc,category)=>{
             const {title,items}=category;
+            // console.log(category);
             acc[title.toLowerCase()]=items;
             return acc;
         },{})
