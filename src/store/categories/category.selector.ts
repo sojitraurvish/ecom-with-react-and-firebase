@@ -9,8 +9,10 @@
 import {createSelector} from "reselect"; // here we have to cerate input selector output selector 
 //input selector give use parameters that we need in order to determine what our output should be
 
+import { CategoriesState } from "./category.reducer";
+import { CategoryMap } from "./category.types";
 //this is initial selector that gives us categories is object from root reducer
-const selectCategoryReducer=(state)=>{// So now when our user get updated our middleware run and it pass all action to the all reducer and when all reducer get updated it pass all object like (user,categories) to the root reducer and when root reducer get update it run all the selector but now this selector will check categories object is change if not then it will return from this function and with old value so that way in category.component.jsx useSelector() hook will not rerender the component
+const selectCategoryReducer=(state):CategoriesState=>{// So now when our user get updated our middleware run and it pass all action to the all reducer and when all reducer get updated it pass all object like (user,categories) to the root reducer and when root reducer get update it run all the selector but now this selector will check categories object is change if not then it will return from this function and with old value so that way in category.component.jsx useSelector() hook will not rerender the component
     console.log("selector 1 fired");
     return state.categories
 }; 
@@ -26,7 +28,7 @@ export const selectCategories=createSelector(//this memorize selector will only 
 
 export const selectCategoriesMap=createSelector(
     [selectCategories],
-    (categories)=>{
+    (categories):CategoryMap=>{
         console.log("selector 3 fired",categories);
         return categories
         .reduce((acc,category)=>{
@@ -34,7 +36,7 @@ export const selectCategoriesMap=createSelector(
             // console.log(category);
             acc[title.toLowerCase()]=items;
             return acc;
-        },{})
+        },{} as CategoryMap)
     }
 );
 

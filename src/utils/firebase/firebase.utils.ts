@@ -10,7 +10,8 @@ import {
     signInWithEmailAndPassword,
     signOut,
     onAuthStateChanged,
-    
+    NextOrObserver,
+    User
 } from "firebase/auth"; 
 
 //------------------ as like firebase , firestore is difference storage
@@ -22,8 +23,10 @@ import {
     collection,
     writeBatch,//for transactions,
     query,
-    getDocs
+    getDocs,
+    QueryDocumentSnapshot
 } from "firebase/firestore";
+import { Category } from "../../store/categories/category.types";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -55,7 +58,17 @@ export const signInWithGoogleRedirect=()=>signInWithRedirect(auth,googleProvider
 // initialize fire store instance in order to communicate
 export const db=getFirestore();
 
-export const createUserDocumentFromAuth=async (userAuth,additionalInformation={})=>{
+export type AdditionalInformation={
+    displayName?:string
+}
+
+export type UserData={
+    createdAt:Date;
+    displayName:string;
+    email:string;
+}
+
+export const createUserDocumentFromAuth=async (userAuth:User,additionalInformation={} as AdditionalInformation):Promise<QueryDocumentSnapshot<UserData> | void>=>{
     if(!userAuth) return;
     const userDocRef=doc(db,"users",userAuth.uid);
 
@@ -79,22 +92,22 @@ export const createUserDocumentFromAuth=async (userAuth,additionalInformation={}
                 ...additionalInformation
             })
         }catch(err){
-            console.log("Error creating the user",err.message);
+            console.log("Error creating the user",err);
         }
     } 
 
     // If user data exists
-    return userSnapshot;
+    return userSnapshot as QueryDocumentSnapshot<UserData>;
 }
 
 //==========================================================
-export const createAuthUserWithEmailAndPassword=async (email,password)=>{
+export const createAuthUserWithEmailAndPassword=async (email:string,password:string)=>{
     if(!email || !password) return;
 
     return await createUserWithEmailAndPassword(auth,email,password);
 }
 
-export const signInAuthUserWithEmailAndPassword=async(email,password)=>{
+export const signInAuthUserWithEmailAndPassword=async(email:string,password:string)=>{
     if(!email || !password)return;
 
     return await signInWithEmailAndPassword(auth,email,password);
@@ -102,16 +115,19 @@ export const signInAuthUserWithEmailAndPassword=async(email,password)=>{
 
 export const signOutUser=async()=>await signOut(auth);
 
-export const onAuthStateChangedListener=(callback)=>
+export const onAuthStateChangedListener=(callback:NextOrObserver<User>)=>
 onAuthStateChanged(auth,callback); // Whenever auth's state changes this callback function get run and it kind of open listener but here one problem that when user sing out and this listener still listening it so, it consider as memory lick and that why this function return as unsubscribe function that will unmount this listener form memory 
 
+export type ObjectsToAdd={
+    title:string
+}
 
-export const addCollectionAndDocuments=async(collectionKey,objectsToAdd)=>{
+export const addCollectionAndDocuments=async <T extends ObjectsToAdd>(collectionKey:string,objectsToAdd:T[]):Promise<void>=>{
     const collectionRef=collection(db,collectionKey);
      
     const batch=writeBatch(db);
 
-   objectsToAdd.forEach((object)=>{
+   objectsToAdd.forEach((object)=>{ 
     const docRef=doc(collectionRef,object.title.toLowerCase()); 
     batch.set(docRef,object);
    });
@@ -120,7 +136,7 @@ export const addCollectionAndDocuments=async(collectionKey,objectsToAdd)=>{
    console.log("done");
 }
 
-export const getCategoriesAndDocuments=async()=>{
+export const getCategoriesAndDocuments=async():Promise<Category[]>=>{
     const collectionRef=collection(db,"categories");
     const q=query(collectionRef);
 
@@ -132,12 +148,12 @@ export const getCategoriesAndDocuments=async()=>{
     //     return acc;
     // },{});
 
-    const categoryMap=querySnapshot.docs.map(docSnapshot=>docSnapshot.data());
+    const categoryMap=querySnapshot.docs.map(docSnapshot=>docSnapshot.data() as Category);
 
     return categoryMap;
 }
 
-export const getCurrentUser=()=>{
+export const getCurrentUser=():Promise<User | null>=>{
     return new Promise((resolve,reject)=>{
         const unsubscribe=onAuthStateChanged(
             auth,
