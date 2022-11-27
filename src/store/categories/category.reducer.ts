@@ -30,12 +30,12 @@ export const categoriesReducer=(state=CATEGORIES_INITIAL_STATE,action:AnyAction)
     
     if(fetchCategoriesSuccess.match(action))
     {
-        return {...state,isLoading:true};
+        return {...state,categories:action.payload,isLoading:false};
     }
 
     if(fetchCategoriesFailed.match(action))
     {
-        return {...state,isLoading:true};
+        return {...state,error:action.payload,isLoading:false};
     }
 
     return state;

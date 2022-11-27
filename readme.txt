@@ -100,3 +100,14 @@ if observeble than you choice redux args js or observeble
 
 @stripe/stripe-js this is javascript library that lets you payment 
 @stripe/react-stripe-js this library gives us the react element and react bindings so that we can interact with the stripe library inside of the react environment ub a significantly easier way
+
+
+@type/redux-logger
+
+typed-redux-saga // is library that infer type for genrator function of saga
+--dev babel-plugin-macros //help for micro for babel
+
+yarn add @types/styled-components
+
+yarn add @apollo/client  // this package helps you to call garphql api
+yarn add graphql

@@ -1,4 +1,8 @@
-export const loggerMiddleware=(store)=>(next)=>(action)=>{
+import { Middleware } from "redux";
+
+import { RootState } from "../store";
+
+export const loggerMiddleware:Middleware<{},RootState>=(store)=>(next)=>(action)=>{
     if(!action.type){
         return next(action); // -> this action passes to the thunkMiddleware And if action do'nt have type that mean it is function
     }
