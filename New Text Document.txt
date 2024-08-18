@@ -1,0 +1,16 @@
+react is a library not a framework so it will never provide you with kitchen as angular
+
+there are two library in react react and react dom 
+
+1 robot -> Create virtual dom that you can see by adding react dev chrome ext.. (component faction code)
+2 react-dom -> and this change actual dom according to virtual dom (plane js code) 
+and now we have may one library like react-dom (react-native- mobile,react(robot)30 vr,blast for terminal ,electron for desktop)
+
+
+to become good react developer
+1 decide on components
+2 decide state and where it lives
+3 what changes when state changes
+
+
+
